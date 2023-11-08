@@ -47,8 +47,9 @@ export async function getChatGPTAccessToken(): Promise<string> {
 }
 
 export class ChatGPTProvider implements Provider {
-  constructor(private token: string) {
+  constructor(private token: string, private model: string) {
     this.token = token
+    this.model = model
   }
 
   private async fetchModels(): Promise<
@@ -64,7 +65,7 @@ export class ChatGPTProvider implements Provider {
       return models[0].slug
     } catch (err) {
       console.error(err)
-      return 'text-davinci-002-render'
+      return 'text-davinci-002-render-sha' // default model as GPT-3.5
     }
   }
 
@@ -76,8 +77,10 @@ export class ChatGPTProvider implements Provider {
         setConversationProperty(this.token, conversationId, { is_visible: false })
       }
     }
-
-    const modelName = await this.getModelName()
+    let modelName = this.model
+    if (modelName === 'Auto') {
+      modelName = await this.getModelName()
+    }
     console.debug('Using model:', modelName)
 
     await fetchSSE('https://chat.openai.com/backend-api/conversation', {

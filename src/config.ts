@@ -78,37 +78,43 @@ export enum ProviderType {
   GPT3 = 'gpt3',
 }
 
-interface GPT3ProviderConfig {
+interface GPTProviderConfig {
   model: string
   apiKey: string
+}
+
+interface ChatGPTProviderConfig {
+  chatgpt_model: string
 }
 
 export interface ProviderConfigs {
   provider: ProviderType
   configs: {
-    [ProviderType.GPT3]: GPT3ProviderConfig | undefined
+    [ProviderType.GPT3]: GPTProviderConfig | undefined
+    [ProviderType.ChatGPT]: ChatGPTProviderConfig | undefined
   }
 }
 
 // api key is in the local storage
 export async function getProviderConfigs(): Promise<ProviderConfigs> {
   const { provider = ProviderType.ChatGPT } = await Browser.storage.local.get('provider')
-  const configKey = `provider:${ProviderType.GPT3}`
+  const configKey = `provider:${provider}`
   const result = await Browser.storage.local.get(configKey)
   return {
     provider,
     configs: {
       [ProviderType.GPT3]: result[configKey],
+      [ProviderType.ChatGPT]: result[configKey],
     },
   }
 }
 
 export async function saveProviderConfigs(
   provider: ProviderType,
-  configs: ProviderConfigs['configs'],
+  configs: GPTProviderConfig | ChatGPTProviderConfig,
 ) {
   return Browser.storage.local.set({
     provider,
-    [`provider:${ProviderType.GPT3}`]: configs[ProviderType.GPT3],
+    [`provider:${provider}`]: configs,
   })
 }

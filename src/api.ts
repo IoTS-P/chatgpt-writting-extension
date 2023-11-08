@@ -23,7 +23,7 @@ export async function fetchPromotion(): Promise<PromotionResponse | null> {
 
 // get config from './api_config.json'
 export async function fetchExtensionConfigs(): Promise<{
-  chatgpt_webapp_model_name: string
+  chatgpt_webapp_model_name: string[]
   openai_model_names: string[]
 }> {
   // async so Promise
