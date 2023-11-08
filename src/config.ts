@@ -52,7 +52,7 @@ const userConfigWithDefaultValue = {
   language: Language.Auto,
   prompts: {
     Rewrite:
-      'Please rewrite the following paragraph(s) like a USENIX Security conference paper to enhance clarity while retaining the terms and concepts defined by the author. Please ensure that the revised content accurately conveys the intended meaning. ',
+      'Please rewrite the following paragraph(s) and revise them to enhance clarity while retaining the terms and concepts defined by the author. Please ensure that the revised content accurately converys the intended meaning. ',
     Concise:
       'Please review the following paragraph(s) and revise them to be more concise while retaining the essential meaning and important concepts. Please ensure that the revised content is clear, accurate ',
   },
